@@ -1,0 +1,7 @@
+{
+  "name": "basic-software-rasterizer-raylib",
+  "version": "1.0.0",
+  "dependencies": [
+    "raylib"
+  ]
+}

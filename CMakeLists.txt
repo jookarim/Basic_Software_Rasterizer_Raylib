@@ -12,5 +12,12 @@ add_executable(Basic_Software_Rasterizer_Raylib
 # Find raylib from vcpkg
 find_package(raylib CONFIG REQUIRED)
 
+# Find glfw3 from vcpkg
+find_package(glfw3 CONFIG REQUIRED)
+
 # Link it
-target_link_libraries(Basic_Software_Rasterizer_Raylib PRIVATE raylib)
+target_link_libraries(Basic_Software_Rasterizer_Raylib
+    PRIVATE
+    raylib
+    glfw
+)

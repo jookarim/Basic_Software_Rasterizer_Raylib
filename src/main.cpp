@@ -32,10 +32,10 @@ int main()
 		{ 27, WINDOW_HEIGHT - 12 }              
 	};
 
-	int minX = std::min(std::min(vertices[0].x, vertices[1].x), vertices[2].x);
-	int minY = std::min(std::min(vertices[0].y, vertices[1].y), vertices[2].y);
-	int maxX = std::max(std::max(vertices[0].x, vertices[1].x), vertices[2].x);
-	int maxY = std::max(std::max(vertices[0].y, vertices[1].y), vertices[2].y);
+	float minX = std::min(std::min(vertices[0].x, vertices[1].x), vertices[2].x);
+	float minY = std::min(std::min(vertices[0].y, vertices[1].y), vertices[2].y);
+	float maxX = std::max(std::max(vertices[0].x, vertices[1].x), vertices[2].x);
+	float maxY = std::max(std::max(vertices[0].y, vertices[1].y), vertices[2].y);
 
 	while (!WindowShouldClose())
 	{
@@ -43,9 +43,9 @@ int main()
 
 		ClearBackground(GREEN);
 		
-		for (int i = minY; i <= maxY; ++i)
+		for (float i = minY; i <= maxY; ++i)
 		{
-			for (int j = minX; j <= maxX; ++j)
+			for (float j = minX; j <= maxX; ++j)
 			{
 				Vector2 P = { j, i };
 				

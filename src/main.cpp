@@ -28,13 +28,15 @@ bool top_left_edge(const Vector2& a, const Vector2& b)
     return is_top || is_left;
 }
 
-void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color col)
+void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color c2)
 {
     float minX = std::min({ v0.x, v1.x, v2.x });
     float maxX = std::max({ v0.x, v1.x, v2.x });
 
     float minY = std::min({ v0.y, v1.y, v2.y });
     float maxY = std::max({ v0.y, v1.y, v2.y });
+
+    float area = edge(v0, v1, v2);
 
     for (float y = minY; y <= maxY; y++)
     {
@@ -54,7 +56,17 @@ void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color col)
 
             if (inside)
             {
-                DrawPixel(x, y, col);
+                float alpha = w0 / area;
+                float beta = w1 / area;
+                float gamma = w2 / area;
+
+                int r = (int)(alpha * c0.r + beta * c1.r + gamma * c2.r);
+                int g = (int)(alpha * c0.g + beta * c1.g + gamma * c2.g);
+                int b = (int)(alpha * c0.b + beta * c1.b + gamma * c2.b);
+                
+                Color color = { r, g, b, 255 };
+
+                DrawPixel(x, y, color);
             }
         }
     }
@@ -77,13 +89,25 @@ int main()
         { 250, 500 }
     };
 
+    Color tri1Colors[] = {
+        {255, 0, 0, 255},
+        {0, 255, 0, 255},
+        {0, 0, 255, 255}
+    };
+
+    Color tri2Colors[] = {
+        {123, 55, 24, 255},
+        {25, 87, 122, 255},
+        {0, 0, 255, 0}
+    };
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        drawTriangle(tri1[0], tri1[1], tri1[2], RED);
-        drawTriangle(tri2[0], tri2[1], tri2[2], GREEN);
+        drawTriangle(tri1[0], tri1[1], tri1[2], tri1Colors[0], tri1Colors[1], tri1Colors[2]);
+        drawTriangle(tri2[0], tri2[1], tri2[2], tri2Colors[0], tri2Colors[1], tri2Colors[2]);
 
         EndDrawing();
     }

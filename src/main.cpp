@@ -28,19 +28,34 @@ bool top_left_edge(const Vector2& a, const Vector2& b)
     return is_top || is_left;
 }
 
+void rotateVector(Vector2& vec, float angle, const Vector2& center)
+{
+    vec.x -= center.x;
+    vec.y -= center.y;
+
+    float x = vec.x;
+    float y = vec.y;
+
+    vec.x = x * cos(angle) - y * sin(angle);
+    vec.y = x * sin(angle) + y * cos(angle);
+
+    vec.x += center.x;
+    vec.y += center.y;
+}
+
 void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color c2)
 {
-    float minX = std::min({ v0.x, v1.x, v2.x });
-    float maxX = std::max({ v0.x, v1.x, v2.x });
+    int minX = (int)std::min({ v0.x, v1.x, v2.x });
+    int maxX = (int)std::max({ v0.x, v1.x, v2.x });
 
-    float minY = std::min({ v0.y, v1.y, v2.y });
-    float maxY = std::max({ v0.y, v1.y, v2.y });
+    int minY = (int)std::min({ v0.y, v1.y, v2.y });
+    int maxY = (int)std::max({ v0.y, v1.y, v2.y });
 
     float area = edge(v0, v1, v2);
 
-    for (float y = minY; y <= maxY; y++)
+    for (int y = minY; y <= maxY; y++)
     {
-        for (float x = minX; x <= maxX; x++)
+        for (int x = minX; x <= maxX; x++)
         {
             Vector2 p = { (float)x + 0.5f, (float)y + 0.5f };
 
@@ -72,6 +87,13 @@ void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color 
     }
 }
 
+Vector2 getCenter(Vector2 triangle[3])
+{
+    float centerX = (triangle[0].x + triangle[1].x + triangle[2].x) / 3.f;
+    float centerY = (triangle[0].y + triangle[1].y + triangle[2].y) / 3.f;
+    return Vector2{ centerX, centerY };
+}
+
 int main()
 {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Fill Convention Test");
@@ -101,10 +123,22 @@ int main()
         {0, 0, 255, 0}
     };
 
+    rotateVector(tri1[0], 45.f * 0.01745329251f, getCenter(tri1));
+    rotateVector(tri1[1], 45.f * 0.01745329251f, getCenter(tri1));
+    rotateVector(tri1[2], 45.f * 0.01745329251f, getCenter(tri1));
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(BLACK);
+
+        float angle = 1.0f * 0.01745329251f; 
+
+        Vector2 center = getCenter(tri1);
+
+        rotateVector(tri1[0], angle, center);
+        rotateVector(tri1[1], angle, center);
+        rotateVector(tri1[2], angle, center);
 
         drawTriangle(tri1[0], tri1[1], tri1[2], tri1Colors[0], tri1Colors[1], tri1Colors[2]);
         drawTriangle(tri2[0], tri2[1], tri2[2], tri2Colors[0], tri2Colors[1], tri2Colors[2]);

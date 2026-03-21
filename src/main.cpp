@@ -56,15 +56,29 @@ void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color 
 
     float area = edge(v0, v1, v2);
 
+    float deltaW0Col = v1.y - v2.y;
+    float deltaW1Col = v2.y - v0.y;
+    float deltaW2Col = v0.y - v1.y;
+
+    float deltaW0Row = v2.x - v1.x;
+    float deltaW1Row = v0.x - v2.x;
+    float deltaW2Row = v1.x - v0.x;
+
+    Vector2 p = { minX, minY };
+
+    float w0_row = edge(v1, v2, p);
+    float w1_row = edge(v2, v0, p);
+    float w2_row = edge(v0, v1, p);
+
     for (int y = minY; y <= maxY; y++)
     {
+        float w0 = w0_row;
+        float w1 = w1_row;
+        float w2 = w2_row;
+
         for (int x = minX; x <= maxX; x++)
         {
             Vector2 p = { (float)x + 0.5f, (float)y + 0.5f };
-
-            float w0 = edge(v1, v2, p);
-            float w1 = edge(v2, v0, p);
-            float w2 = edge(v0, v1, p);
 
             bool inside = true;
 
@@ -86,7 +100,15 @@ void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color 
 
                 DrawPixel(x, y, color);
             }
+
+            w0 += deltaW0Col;
+            w1 += deltaW1Col;
+            w2 += deltaW2Col;
         }
+
+        w0_row += deltaW0Row;
+        w1_row += deltaW1Row;
+        w2_row += deltaW2Row;
     }
 }
 

@@ -9,15 +9,47 @@ add_executable(Basic_Software_Rasterizer_Raylib
     src/main.cpp
 )
 
-# Find raylib from vcpkg
+# ---------------- raylib ----------------
 find_package(raylib CONFIG REQUIRED)
 
-# Find glfw3 from vcpkg
+# ---------------- glfw3 ----------------
 find_package(glfw3 CONFIG REQUIRED)
 
-# Link it
+
+# ---------------- ImGui ----------------
+add_library(imgui STATIC
+    external/imgui/imgui.cpp
+    external/imgui/imgui_draw.cpp
+    external/imgui/imgui_tables.cpp
+    external/imgui/imgui_widgets.cpp
+    external/imgui/imgui_demo.cpp
+)
+
+target_include_directories(imgui PUBLIC
+    external/imgui
+)
+
+# ---------------- rlImGui ----------------
+add_library(rlImGui STATIC
+    external/rlImGui/rlImGui.cpp
+)
+
+target_include_directories(rlImGui PUBLIC
+    external/imgui
+    external/rlImGui
+)
+
+target_link_libraries(rlImGui
+    PUBLIC
+    imgui
+    raylib
+)
+
+# ---------------- Final Link ----------------
 target_link_libraries(Basic_Software_Rasterizer_Raylib
     PRIVATE
     raylib
     glfw
+    imgui
+    rlImGui
 )

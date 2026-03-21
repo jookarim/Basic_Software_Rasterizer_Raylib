@@ -12,6 +12,8 @@ add_executable(Basic_Software_Rasterizer_Raylib
 # ---------------- raylib ----------------
 find_package(raylib CONFIG REQUIRED)
 
+# ---------------- glfw3 ----------------
+find_package(glfw3 CONFIG REQUIRED)
 
 # ---------------- ImGui ----------------
 add_library(imgui STATIC
@@ -36,16 +38,35 @@ target_include_directories(rlImGui PUBLIC
     external/rlImGui
 )
 
+# 🔥 Cross-platform safe GLFW target detection
+if(TARGET glfw)
+    set(GLFW_TARGET glfw)
+elseif(TARGET glfw3::glfw)
+    set(GLFW_TARGET glfw3::glfw)
+else()
+    message(FATAL_ERROR "GLFW target not found")
+endif()
+
 target_link_libraries(rlImGui
     PUBLIC
     imgui
     raylib
+    ${GLFW_TARGET}
 )
 
 # ---------------- Final Link ----------------
 target_link_libraries(Basic_Software_Rasterizer_Raylib
     PRIVATE
-    raylib
-    imgui
     rlImGui
 )
+
+# ---------------- macOS ----------------
+if(APPLE)
+    target_link_libraries(Basic_Software_Rasterizer_Raylib
+        PRIVATE
+        "-framework Cocoa"
+        "-framework IOKit"
+        "-framework CoreVideo"
+        "-framework OpenGL"
+    )
+endif()

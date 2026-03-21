@@ -2,6 +2,9 @@
 #include <raylib.h>
 #include <cmath>
 #include <algorithm>
+#include <string>
+#include <sstream>
+#include <iomanip>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -45,11 +48,11 @@ void rotateVector(Vector2& vec, float angle, const Vector2& center)
 
 void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color c2)
 {
-    int minX = (int)std::min({ v0.x, v1.x, v2.x });
-    int maxX = (int)std::max({ v0.x, v1.x, v2.x });
+    int minX = (int)std::floor(std::min({ v0.x, v1.x, v2.x }));
+    int minY = (int)std::floor(std::min({ v0.y, v1.y, v2.y }));
 
-    int minY = (int)std::min({ v0.y, v1.y, v2.y });
-    int maxY = (int)std::max({ v0.y, v1.y, v2.y });
+    int maxX = (int)std::ceil(std::max({ v0.x, v1.x, v2.x }));
+    int maxY = (int)std::ceil(std::max({ v0.y, v1.y, v2.y }));
 
     float area = edge(v0, v1, v2);
 
@@ -65,9 +68,9 @@ void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color 
 
             bool inside = true;
 
-            if (w0 < 0 || (w0 == 0 && !top_left_edge(v1, v2))) inside = false;
-            if (w1 < 0 || (w1 == 0 && !top_left_edge(v2, v0))) inside = false;
-            if (w2 < 0 || (w2 == 0 && !top_left_edge(v0, v1))) inside = false;
+            if (w0 < 0.f || (w0 == 0.f && !top_left_edge(v1, v2))) inside = false;
+            if (w1 < 0.f || (w1 == 0.f && !top_left_edge(v2, v0))) inside = false;
+            if (w2 < 0.f || (w2 == 0.f && !top_left_edge(v0, v1))) inside = false;
 
             if (inside)
             {
@@ -78,7 +81,7 @@ void drawTriangle(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Color 
                 int r = (int)(alpha * c0.r + beta * c1.r + gamma * c2.r);
                 int g = (int)(alpha * c0.g + beta * c1.g + gamma * c2.g);
                 int b = (int)(alpha * c0.b + beta * c1.b + gamma * c2.b);
-                
+
                 Color color = { r, g, b, 255 };
 
                 DrawPixel(x, y, color);
@@ -91,12 +94,12 @@ Vector2 getCenter(Vector2 triangle[3])
 {
     float centerX = (triangle[0].x + triangle[1].x + triangle[2].x) / 3.f;
     float centerY = (triangle[0].y + triangle[1].y + triangle[2].y) / 3.f;
-    return Vector2{ centerX, centerY };
+    return { centerX, centerY };
 }
 
 int main()
 {
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Fill Convention Test");
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Full Subpixel Rasterizer");
     SetTargetFPS(60);
 
     Vector2 tri1[] = {
@@ -120,19 +123,21 @@ int main()
     Color tri2Colors[] = {
         {123, 55, 24, 255},
         {25, 87, 122, 255},
-        {0, 0, 255, 0}
+        {0, 0, 255, 255}
     };
-
-    rotateVector(tri1[0], 45.f * 0.01745329251f, getCenter(tri1));
-    rotateVector(tri1[1], 45.f * 0.01745329251f, getCenter(tri1));
-    rotateVector(tri1[2], 45.f * 0.01745329251f, getCenter(tri1));
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        float angle = 1.0f * 0.01745329251f; 
+        float angle = 1.0f * 0.01745329251f;
+
+        std::stringstream ss;
+        ss << "FPS: " << std::fixed << std::setprecision(0) << (1.f / GetFrameTime());
+        std::string fps = ss.str();
+
+        DrawText(fps.c_str(), 48, 48, 24, WHITE);
 
         Vector2 center = getCenter(tri1);
 

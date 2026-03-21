@@ -12,9 +12,6 @@ add_executable(Basic_Software_Rasterizer_Raylib
 # ---------------- raylib ----------------
 find_package(raylib CONFIG REQUIRED)
 
-# ---------------- glfw3 ----------------
-find_package(glfw3 CONFIG REQUIRED)
-
 
 # ---------------- ImGui ----------------
 add_library(imgui STATIC
@@ -49,7 +46,6 @@ target_link_libraries(rlImGui
 target_link_libraries(Basic_Software_Rasterizer_Raylib
     PRIVATE
     raylib
-    glfw
     imgui
     rlImGui
 )

@@ -67,7 +67,7 @@ void drawTriangleNew(Vector2 v0, Vector2 v1, Vector2 v2, Color c0, Color c1, Col
     float deltaW1Row = v0.x - v2.x;
     float deltaW2Row = v1.x - v0.x;
 
-    Vector2 p = { minX, minY };
+    Vector2 p = { (float)minX, (float)minY };
 
     float w0_row = edge(v1, v2, p);
     float w1_row = edge(v2, v0, p);

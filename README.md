@@ -55,7 +55,7 @@ Uses incremental updates (fast, GPU-like)
   <img src="assets/screenshots/screenshot0.png" alt="Watch Demo"/>
 </a>
 
-<p>▶ Click to watch the demo in a new window</p>
+<p>▶ Press (Ctrl + Click) to watch the demo in a new window</p>
 
 ---
 

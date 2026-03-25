@@ -49,13 +49,7 @@ Uses incremental updates (fast, GPU-like)
 
 ---
 
-## 📸 Demo
-
-### 🎥 Video
-https://youtu.be/LNaD5f8miPQ
-
-### 🖼️ Screenshot
-![Rasterizer Screenshot](assets/screenshots/screenshot0.png)
+[![Watch Demo](assets/screenshots/screenshot0.png)](https://youtu.be/LNaD5f8miPQ)
 
 ---
 

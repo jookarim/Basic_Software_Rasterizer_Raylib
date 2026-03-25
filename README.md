@@ -49,7 +49,13 @@ Uses incremental updates (fast, GPU-like)
 
 ---
 
-[![Watch Demo](assets/screenshots/screenshot0.png)](https://youtu.be/LNaD5f8miPQ)
+## 📸 Demo Video
+
+<a href="https://youtu.be/LNaD5f8miPQ" target="_blank">
+  <img src="assets/screenshots/screenshot0.png" alt="Watch Demo"/>
+</a>
+
+<p>▶ Click to watch the demo in a new window</p>
 
 ---
 
